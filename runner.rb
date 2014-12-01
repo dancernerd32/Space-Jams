@@ -21,7 +21,7 @@ class Album
   def print_tracks
     @track_titles = []
     tracks.each do |track|
-      @track_titles << "- #{track[:title]}"
+      @track_titles << "- #{track.title}"
     end
     @track_titles.join("\n")
   end
@@ -29,7 +29,7 @@ class Album
   def duration_min
     dur_ms = 0
     @tracks.each do |track|
-      dur_ms += track[:duration_ms].to_f
+      dur_ms += track.duration_ms.to_f
     end
     dur_ms / 60000
   end
@@ -43,6 +43,35 @@ class Album
   end
 end
 
+class Track
+  def initialize(track)
+    @track = track
+  end
+
+  def album_id
+    @track[:album_id]
+  end
+
+  def id
+    @track[:track_id]
+  end
+
+  def title
+    @track[:title]
+  end
+
+  def track_number
+    @track[:track_number]
+  end
+
+  def duration_ms
+    @track[:duration_ms]
+  end
+end
+
+
+
+
 albums = []
 
 CSV.foreach('space_jams.csv', headers: true, header_converters: :symbol) do |row|
@@ -55,6 +84,7 @@ CSV.foreach('space_jams.csv', headers: true, header_converters: :symbol) do |row
     albums << album
   end
 
+  track = Track.new(track)
   album_tracks = []
 
 
